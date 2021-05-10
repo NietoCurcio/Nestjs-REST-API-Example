@@ -12,13 +12,11 @@ export class ItemsController {
 
   @Get(':id')
   findById(@Param() params: FindItemById) {
-    console.log(params);
     return this.itemsService.findById(params.id);
   }
 
   @Post()
   create(@Body() createItemDto: CreateItemDto) {
-    console.log(createItemDto);
     return { item: 'item' };
   }
 }

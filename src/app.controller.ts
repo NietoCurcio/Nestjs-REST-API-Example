@@ -12,6 +12,6 @@ export class AppController {
   //   Angular providers are registered in the global scope
   //   Nest, actually, encapsules its providers in its module, *make available elsewhere with @Global*?,
   constructor(private catsService: CatsService) {
-    console.log(catsService.findAll());
+    // console.log(catsService.findAll());
   }
 }

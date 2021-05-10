@@ -18,16 +18,33 @@ import {
   HttpStatus,
   UseFilters,
   ForbiddenException,
+  UseGuards,
+  SetMetadata,
+  UseInterceptors,
 } from '@nestjs/common';
 import { create } from 'eslint/lib/rules/*';
 import { Request, Response } from 'express';
 import { Observable, of } from 'rxjs';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
-import { CreateCatDto, ListAllEntities, UpdateCatDto } from './dto/cat.dto';
+import {
+  CreateCatDto,
+  ListAllEntities,
+  UpdateCatDto,
+  UserEntity,
+} from './dto/cat.dto';
 import { AllExceptionsFilter, HttpExceptionFilter } from '../exceptionFilters';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { LoggerInterceptor } from '../interceptors/logger.interceptor';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
+import { User } from 'src/customDecorator/user.decorator';
+import { Auth } from 'src/customDecorator/auth.decorator';
 
 @Controller('cats')
+@UseGuards(RolesGuard)
+@UseInterceptors(LoggerInterceptor, TransformInterceptor)
 @UseFilters(HttpExceptionFilter)
 // @UseFilters(AllExceptionsFilter)
 export class CatsController {
@@ -51,7 +68,8 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param() params): string {
+  findOne(@Param() params, @User() user: UserEntity): string {
+    console.log(user);
     return `This action returns a #${params.id} cat`;
   }
 
@@ -61,14 +79,16 @@ export class CatsController {
   }
 
   @Post()
+  // @UseFilters(AllExceptionsFilter) decorator already in controller-context
+  @Roles('admin')
   async createBody(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
 
   @Put(':id')
+  @Auth('admin')
+  @UseInterceptors(TimeoutInterceptor)
   update(@Param() params, @Body() updateCatDto: UpdateCatDto) {
-    console.log('put');
-    console.log(updateCatDto);
     return `This action updates a #${params.id} cat`;
   }
 

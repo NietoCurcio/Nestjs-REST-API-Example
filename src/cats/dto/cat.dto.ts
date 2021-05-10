@@ -15,3 +15,8 @@ export class UpdateCatDto {
   age?: string;
   breed?: string;
 }
+
+export class UserEntity {
+  name: string;
+  email: string;
+}

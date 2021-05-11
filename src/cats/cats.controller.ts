@@ -42,6 +42,12 @@ import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
 import { User } from 'src/customDecorator/user.decorator';
 import { Auth } from 'src/customDecorator/auth.decorator';
 
+export interface Connection {
+  a: number;
+  b: number;
+  c: number;
+}
+
 @Controller('cats')
 @UseGuards(RolesGuard)
 @UseInterceptors(LoggerInterceptor, TransformInterceptor)
@@ -50,7 +56,15 @@ import { Auth } from 'src/customDecorator/auth.decorator';
 export class CatsController {
   // CatsService provider, that has an @Injectable decorator
   // was injected in catsController
-  constructor(private catsService: CatsService) {}
+  constructor(
+    private catsService: CatsService,
+    @Inject('CONFIG') useFac,
+    @Inject('CONNECTION') con,
+  ) {
+    console.log('EAE FELIPE');
+    console.log(con);
+    console.log(useFac);
+  }
 
   @Get('error')
   findError() {

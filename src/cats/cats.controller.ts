@@ -41,6 +41,7 @@ import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
 import { User } from 'src/customDecorator/user.decorator';
 import { Auth } from 'src/customDecorator/auth.decorator';
+import { ConfigService } from 'src/dynamicModule/config.service';
 
 export interface Connection {
   a: number;
@@ -60,11 +61,9 @@ export class CatsController {
     private catsService: CatsService,
     @Inject('CONFIG') useFac,
     @Inject('CONNECTION') con,
-  ) {
-    console.log('EAE FELIPE');
-    console.log(con);
-    console.log(useFac);
-  }
+    @Inject('ASYNC_CONNECTION') asyncCon,
+    private config: ConfigService,
+  ) {}
 
   @Get('error')
   findError() {

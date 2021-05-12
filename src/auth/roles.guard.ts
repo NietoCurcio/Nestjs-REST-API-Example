@@ -10,7 +10,11 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    // the default role in Controller context, will be the default
+    const roles = this.reflector.getAllAndOverride<string[]>('roles', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     if (!roles) return true;
     const req = context.switchToHttp().getRequest();
     const user = req.user;
@@ -20,5 +24,6 @@ export class RolesGuard implements CanActivate {
 
 function matchRoles(rolesRoute, rolesUser) {
   // here is logic parsing rolesRoute and rolesUser
+  if (rolesRoute[0] == 'user') return true;
   return false;
 }

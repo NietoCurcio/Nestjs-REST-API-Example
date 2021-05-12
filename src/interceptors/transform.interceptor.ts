@@ -21,7 +21,7 @@ export class TransformInterceptor<T>
     return next.handle().pipe(
       map((data) => {
         console.log(data + ' mapData');
-        return { data };
+        return { data, extraInfo: 'Info' };
       }),
     );
   }

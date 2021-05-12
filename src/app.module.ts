@@ -3,6 +3,7 @@ import {
   NestModule,
   MiddlewareConsumer,
   RequestMethod,
+  Global,
 } from '@nestjs/common';
 import { CatsModule } from './cats/cats.module';
 import { AppController } from './app.controller';
@@ -10,10 +11,22 @@ import { logger } from './logger.middleware';
 import { CatsController } from './cats/cats.controller';
 import { ItemsController } from './items/items.controller';
 import { ItemsModule } from './items/items.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseConfigService } from './mongoose.service';
+import { DynamicModuleConfig } from './dynamicModule/dynamic.module';
 
 @Module({
+  providers: [MongooseConfigService],
   controllers: [AppController, ItemsController],
-  imports: [CatsModule, ItemsModule],
+  imports: [
+    CatsModule,
+    ItemsModule,
+    DynamicModuleConfig.register({ folder: './config' }),
+    MongooseModule.forRootAsync({
+      imports: [DynamicModuleConfig],
+      useClass: MongooseConfigService,
+    }),
+  ],
 })
 export class AppModule implements NestModule {
   // middleware are placed here, not in @module decorator

@@ -58,11 +58,7 @@ export class CatsController {
   // CatsService provider, that has an @Injectable decorator
   // was injected in catsController
   constructor(
-    private catsService: CatsService,
-    @Inject('CONFIG') useFac,
-    @Inject('CONNECTION') con,
-    @Inject('ASYNC_CONNECTION') asyncCon,
-    private config: ConfigService,
+    private catsService: CatsService, // @Inject('CONNECTION') con, // @Inject('CONFIG') private useFac, // @Inject('ASYNC_CONNECTION') asyncCon, // private config: ConfigService,
   ) {}
 
   @Get('error')
@@ -87,15 +83,16 @@ export class CatsController {
   }
 
   @Get()
+  // async findAll(): Promise<Cat[]> {
   async findAll(): Promise<Cat[]> {
     return this.catsService.findAll();
   }
 
   @Post()
   // @UseFilters(AllExceptionsFilter) decorator already in controller-context
-  @Roles('admin')
+  @Roles('user')
   async createBody(@Body() createCatDto: CreateCatDto) {
-    this.catsService.create(createCatDto);
+    await this.catsService.create(createCatDto);
   }
 
   @Put(':id')

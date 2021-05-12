@@ -23,7 +23,7 @@ import { DynamicModuleConfig } from './dynamicModule/dynamic.module';
     ItemsModule,
     DynamicModuleConfig.register({ folder: './config' }),
     MongooseModule.forRootAsync({
-      imports: [DynamicModuleConfig],
+      imports: [DynamicModuleConfig.register({ folder: './config' })],
       useClass: MongooseConfigService,
     }),
   ],

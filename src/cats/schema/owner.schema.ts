@@ -6,7 +6,7 @@ export type ownerDocument = Owner & Document;
 @Schema()
 export class Owner {
   @Prop()
-  name: string;
+  firstname: string;
 
   @Prop()
   lastname: string;

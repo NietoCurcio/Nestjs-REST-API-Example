@@ -21,9 +21,14 @@ export class CatsService {
 
   async create(createCatDto: CreateCatDto): Promise<Cat> {
     const cat = new this.catModel(createCatDto);
-    const owner = new this.ownerModel({ name: 'Felipe', lastname: 'Curcio' });
+    const owner = await this.ownerModel.create({
+      firstname: 'Felipe',
+      lastname: 'Curcio',
+    });
+    console.log('FELIPEEEEEEEEEE');
+    console.log(owner);
     cat.owner = owner.id;
-    cat.raw = { friend: 'Friend Tom' };
+    cat.friend = { cat: 'Friend Tom' };
     return cat.save();
   }
 

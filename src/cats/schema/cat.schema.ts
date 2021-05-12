@@ -16,11 +16,15 @@ export class Cat {
   @Prop()
   breed: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Owner',
+    autopopulate: true,
+  })
   owner: Owner[];
 
   @Prop(raw({ friend: { type: String } }))
-  raw: Record<string, any>;
+  friend: Record<string, any>;
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);

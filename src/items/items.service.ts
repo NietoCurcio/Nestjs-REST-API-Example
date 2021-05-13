@@ -20,7 +20,7 @@ export class ItemsService {
     return this.items;
   }
 
-  findOne() {
+  async findOne() {
     return this.ItemModel.findOne({
       name: 'teste',
     });

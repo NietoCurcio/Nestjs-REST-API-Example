@@ -41,7 +41,7 @@ import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
 import { User } from 'src/customDecorator/user.decorator';
 import { Auth } from 'src/customDecorator/auth.decorator';
-import { ConfigService } from 'src/dynamicModule/config.service';
+// import { ConfigService } from 'src/dynamicModule/config.service';
 
 export interface Connection {
   a: number;

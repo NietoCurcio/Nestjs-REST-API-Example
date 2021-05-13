@@ -3,14 +3,14 @@ import {
   MongooseModuleOptions,
   MongooseOptionsFactory,
 } from '@nestjs/mongoose';
-import { ConfigService } from './dynamicModule/config.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
   constructor(private config: ConfigService) {}
   createMongooseOptions(): MongooseModuleOptions {
     return {
-      uri: this.config.get('MONGO_URI'),
+      uri: 'mongodb://localhost:27017/projectExample',
     };
   }
 }

@@ -2,11 +2,11 @@ import { Global, Module } from '@nestjs/common';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { CustomModule } from './customProviders.module';
-import { DynamicModuleConfig } from '../dynamicModule/dynamic.module';
+// import { DynamicModuleConfig } from '../dynamicModule/dynamic.module';
 import { Cat, CatSchema } from './schema/cat.schema';
 import { Owner, OwnerSchema } from './schema/owner.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigService } from 'src/dynamicModule/config.service';
+// import { ConfigService } from 'src/dynamicModule/config.service';
 
 // making cats providers available everywhere, should be registered only once
 @Global()
@@ -20,19 +20,19 @@ import { ConfigService } from 'src/dynamicModule/config.service';
     //   { name: Cat.name, schema: CatSchema },
     //   { name: Owner.name, schema: OwnerSchema },
     // ]),
+    // DynamicModuleConfig,
     MongooseModule.forFeatureAsync([
       {
         name: Cat.name,
-        imports: [DynamicModuleConfig.register({ folder: './config' })],
-        useFactory: (config: ConfigService) => {
+        // imports: [DynamicModuleConfig.register({ folder: './config' })],
+        useFactory: () => {
           const schema = CatSchema;
           schema.plugin(require('mongoose-autopopulate'));
           schema.pre('save', function () {
-            console.log(`${config.get('FELIPE')}: Hello from pre save on Cats`);
+            console.log('Hello from pre save on Cats');
           });
           return schema;
         },
-        inject: [ConfigService],
       },
       { name: Owner.name, useFactory: () => OwnerSchema },
     ]),

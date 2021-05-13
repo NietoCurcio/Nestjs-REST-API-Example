@@ -25,8 +25,6 @@ export class CatsService {
       firstname: 'Felipe',
       lastname: 'Curcio',
     });
-    console.log('FELIPEEEEEEEEEE');
-    console.log(owner);
     cat.owner = owner.id;
     cat.friend = { cat: 'Friend Tom' };
     return cat.save();

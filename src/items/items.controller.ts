@@ -10,6 +10,16 @@ export class ItemsController {
     return this.itemsService.findAll();
   }
 
+  @Get('one')
+  findOne() {
+    // testing using async/await in controller, or only in service, or in both
+    // the best seems to be leave it to nest, do not make await
+    let n = Date.now();
+    let find = this.itemsService.findOne();
+    console.log(Date.now() - n);
+    return find;
+  }
+
   @Get(':id')
   findById(@Param() params: FindItemById) {
     return this.itemsService.findById(params.id);
@@ -17,6 +27,6 @@ export class ItemsController {
 
   @Post()
   create(@Body() createItemDto: CreateItemDto) {
-    return { item: 'item' };
+    return this.itemsService.create(createItemDto);
   }
 }

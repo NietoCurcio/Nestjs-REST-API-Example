@@ -1,10 +1,19 @@
-import { IsString, IsInt, IsNumberString } from 'class-validator';
+import { IsString, IsNumberString } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 export class CreateItemDto {
   @IsString()
   name: string;
+
   @IsString()
   description: string;
+
+  @IsString()
+  _property: string;
+
+  constructor(item) {
+    Object.assign(this, item);
+  }
 }
 
 export class FindItemById {

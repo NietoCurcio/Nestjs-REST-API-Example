@@ -14,6 +14,8 @@ import { ItemsModule } from './items/items.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './mongoose.service';
 import { DynamicModuleConfig } from './dynamicModule/dynamic.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 @Module({
   providers: [MongooseConfigService],
@@ -21,9 +23,17 @@ import { DynamicModuleConfig } from './dynamicModule/dynamic.module';
   imports: [
     CatsModule,
     ItemsModule,
-    DynamicModuleConfig.register({ folder: './config' }),
+    // ConfigModule.forRoot({
+    //   isGlobal: true,
+    //   envFilePath: ['.src/config/development.env'],
+    //   load: [configuration],
+    // }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['./src/config/development.env'],
+      load: [configuration],
+    }),
     MongooseModule.forRootAsync({
-      imports: [DynamicModuleConfig.register({ folder: './config' })],
       useClass: MongooseConfigService,
     }),
   ],

@@ -58,8 +58,20 @@ export class ItemsController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: (req, file, cb) => cb(null, './src/upload'),
-        filename: (req, file, cb) =>
-          cb(null, file.filename + '-' + file.originalname),
+        filename: (req, file, cb) => {
+          console.log(file);
+          console.log(file.filename);
+          cb(
+            null,
+            file.fieldname +
+              '-' +
+              Date.now() +
+              '-' +
+              Math.round(Math.random() * 1e9) +
+              '-' +
+              file.originalname,
+          );
+        },
       }),
     }),
   )

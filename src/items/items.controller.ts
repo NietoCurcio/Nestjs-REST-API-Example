@@ -27,8 +27,11 @@ export class ItemsController {
   async findOne() {
     // testing using async/await in controller, or only in service, or in both
     // the best seems to be leave it to nest, do not make await
+    // "Every async function has to return a Promise. This means that you can return
+    // a deferred value that Nest will be able to resolve by itself."
     let n = Date.now();
     let find = this.itemsService.findOne();
+    console.log(find);
     console.log(Date.now() - n);
     return find;
   }

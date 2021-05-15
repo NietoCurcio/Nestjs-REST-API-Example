@@ -10,7 +10,7 @@ export class MongooseConfigService implements MongooseOptionsFactory {
   constructor(private config: ConfigService) {}
   createMongooseOptions(): MongooseModuleOptions {
     return {
-      uri: 'mongodb://localhost:27017/projectExample',
+      uri: this.config.get('database.host'),
     };
   }
 }

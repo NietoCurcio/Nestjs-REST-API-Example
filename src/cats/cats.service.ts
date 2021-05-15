@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ArgumentsHost, Injectable, Req } from '@nestjs/common';
 import { Cat } from './interfaces/cat.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cat as CatMongoose, CatDocument } from './schema/cat.schema';
@@ -19,7 +19,7 @@ export class CatsService {
     @InjectModel(Owner.name) private ownerModel: Model<ownerDocument>,
   ) {}
 
-  async create(createCatDto: CreateCatDto): Promise<Cat> {
+  async create(createCatDto: CreateCatDto, user): Promise<Cat> {
     const cat = new this.catModel(createCatDto);
     const owner = await this.ownerModel.create({
       firstname: 'Felipe',

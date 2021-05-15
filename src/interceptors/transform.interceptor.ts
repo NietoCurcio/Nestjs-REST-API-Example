@@ -20,7 +20,8 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((data) => {
-        console.log(data + ' mapData');
+        // Here is the data beign send to the client (the reponse)
+        console.log('Data transformed ({extraInfo...})');
         return { data, extraInfo: 'Info' };
       }),
     );

@@ -21,13 +21,14 @@ export class ItemsService {
   }
 
   async findOne() {
-    return this.ItemModel.findOne({
+    const query = this.ItemModel.findOne({
       name: 'teste',
     });
+    return query;
   }
 
-  create(CreateItemDto): Promise<Item> {
-    return this.ItemModel.create(CreateItemDto);
+  create(createItemDto): Promise<Item> {
+    return this.ItemModel.create(createItemDto);
   }
 
   findById(id): Item {

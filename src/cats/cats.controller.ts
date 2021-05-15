@@ -41,6 +41,9 @@ import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
 import { User } from 'src/customDecorator/user.decorator';
 import { Auth } from 'src/customDecorator/auth.decorator';
+import { Role } from 'src/auth/role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 // import { ConfigService } from 'src/dynamicModule/config.service';
 
 export interface Connection {
@@ -49,11 +52,10 @@ export interface Connection {
   c: number;
 }
 
-@Controller('cats')
-@UseGuards(RolesGuard)
+@Auth(Role.User)
 @UseInterceptors(LoggerInterceptor, TransformInterceptor)
 @UseFilters(HttpExceptionFilter)
-// @UseFilters(AllExceptionsFilter)
+@Controller('cats')
 export class CatsController {
   // CatsService provider, that has an @Injectable decorator
   // was injected in catsController
@@ -72,7 +74,7 @@ export class CatsController {
         status: 403,
       });
       // subclass of HttpException, trycatch is a handlded exception (when not throw again),
-      // UseFilters is for unhandled
+      // UseFilters is for unhandled, notice that there is already a default ExceptionLayer
     }
   }
 
@@ -83,20 +85,20 @@ export class CatsController {
   }
 
   @Get()
-  // async findAll(): Promise<Cat[]> {
-  async findAll(): Promise<Cat[]> {
+  async findAll(@Req() req: Request): Promise<Cat[]> {
     return this.catsService.findAll();
   }
 
   @Post()
   // @UseFilters(AllExceptionsFilter) decorator already in controller-context
-  @Roles('user')
-  async createBody(@Body() createCatDto: CreateCatDto) {
-    await this.catsService.create(createCatDto);
+  @Roles(Role.Admin)
+  async create(@Body() createCatDto: CreateCatDto, @Req() req: Request) {
+    return this.catsService.create(createCatDto, req.user);
   }
 
   @Put(':id')
-  @Auth('admin')
+  @Auth(Role.Admin)
+  // notice that the request flow is: middlewares -> guards -> pipe or interceptor -> handler(controller)
   @UseInterceptors(TimeoutInterceptor)
   update(@Param() params, @Body() updateCatDto: UpdateCatDto) {
     return `This action updates a #${params.id} cat`;

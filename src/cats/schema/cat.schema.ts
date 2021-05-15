@@ -19,6 +19,7 @@ export class Cat {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Owner',
+    // property together with plugin('mongoose-autopopulate')
     autopopulate: true,
   })
   owner: Owner[];

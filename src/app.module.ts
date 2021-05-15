@@ -15,7 +15,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './mongoose.service';
 import { DynamicModuleConfig } from './dynamicModule/dynamic.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 import configuration from './config/configuration';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   providers: [MongooseConfigService],
@@ -23,11 +27,9 @@ import configuration from './config/configuration';
   imports: [
     CatsModule,
     ItemsModule,
-    // ConfigModule.forRoot({
-    //   isGlobal: true,
-    //   envFilePath: ['.src/config/development.env'],
-    //   load: [configuration],
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['./src/config/development.env'],
@@ -36,6 +38,8 @@ import configuration from './config/configuration';
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
     }),
+    AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule implements NestModule {

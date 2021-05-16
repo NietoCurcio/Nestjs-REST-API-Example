@@ -104,7 +104,7 @@ Authentication - Nestjs uses Passport library, to implement authentication strat
 
 Authorization - This project example uses Role-based access control (RBAC) to define who can perform some actions, for example, delete items or posts would be privilege of only an Administrator. Nest can also be integrated with CASL Authorization library (this project didn't go deep into it).
 
-Since Nestjs is built on top of Express, it supports and uses [Helmet](https://github.com/helmetjs) and [Cors](https://github.com/expressjs/cors) middleware.
+Since Nestjs is built on top of Express, it supports and uses [Helmet](https://github.com/helmetjs) and [Cors](https://github.com/expressjs/cors) middlewares.
 
 <hr>
 

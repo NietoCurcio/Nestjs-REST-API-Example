@@ -105,6 +105,7 @@ export class CatsController {
   }
 
   @Delete(':id')
+  @Auth(Role.Admin)
   remove(@Param('id') id: string) {
     return `This action removes a #${id} cat`;
   }

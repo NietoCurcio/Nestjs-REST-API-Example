@@ -4,9 +4,89 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NestJs</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>NestJs Example</title>
   </head>
   <body>
-    <h1>Hello nestjs</h1>
+    <h1>Hello NestJs</h1>
+    <br />
+    <h2>Endpoints</h2>
+    <div id="routes">
+      <div id="route">
+        <h3>/auth</h3>
+        <p>Make authentication</p>
+        <div id="endpoint">
+          <p>/login</p>
+          <p>POST</p>
+          <p>Sign in, get JWT token</p>
+        </div>
+        <div id="endpoint">
+          <p>/signup</p>
+          <p>POST</p>
+          <p>
+            Sign up, register a user to sign in and get a JWT token <br />
+            Handles if user already exists
+          </p>
+        </div>
+        <div id="endpoint">
+          <p>/profile</p>
+          <p>GET</p>
+          <p>GET the user that send the request</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="routes">
+      <div id="route">
+        <h3>/cats</h3>
+        <p>Protected (requires authentication)</p>
+        <div id="endpoint">
+          <p>/error</p>
+          <p>GET</p>
+          <p>Exception Layer</p>
+        </div>
+        <div id="endpoint">
+          <p>/</p>
+          <p>GET, POST</p>
+          <p>POST protected only admin authorized</p>
+        </div>
+        <div id="endpoint">
+          <p>/:id</p>
+          <p>GET, PUT, DELETE</p>
+          <p>
+            PUT protected only admin authorized, just example <br />
+            DELETE also protected, just example
+          </p>
+        </div>
+      </div>
+
+      <div id="routes">
+        <h3>/items</h3>
+        <p>Mongo integration & Serialization</p>
+        <div id="endpoint">
+          <p>/</p>
+          <p>GET, POST</p>
+          <p>
+            Find all users, just example <br />
+            Create an item
+          </p>
+        </div>
+        <div id="endpoint">
+          <p>/one</p>
+          <p>GET</p>
+          <p>Find one, mongoose integration</p>
+        </div>
+        <div id="endpoint">
+          <p>/:id</p>
+          <p>GET</p>
+          <p>Find one, serialization</p>
+        </div>
+        <div id="endpoint">
+          <p>/uploads</p>
+          <p>POST</p>
+          <p>Upload a file</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

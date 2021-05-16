@@ -5,8 +5,8 @@ export class CreateItemDto {
   @IsString()
   name: string;
 
-  @Exclude()
-  // @IsString()
+  @IsString()
+  @Exclude({ toPlainOnly: true })
   description: string;
 
   @IsString()
